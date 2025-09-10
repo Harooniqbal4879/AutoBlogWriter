@@ -12,16 +12,20 @@ class Config:
     OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4-1106-preview")
     OPENAI_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.7"))
     MAX_TOKENS = int(os.getenv("MAX_TOKENS", "4000"))
-    
+
+    # LinkedIn Credentials
+    LINKEDIN_CLIENT_ID = os.getenv("LINKEDIN_CLIENT_ID", "")
+    LINKEDIN_CLIENT_SECRET = os.getenv("LINKEDIN_CLIENT_SECRET", "")
+
     # Search Settings
     SERP_API_KEY = os.getenv("SERP_API_KEY")
     SEARCH_RESULTS_LIMIT = int(os.getenv("SEARCH_RESULTS_LIMIT", "10"))
-    
+
     # LangSmith Settings
     LANGCHAIN_API_KEY = os.getenv("LANGCHAIN_API_KEY")
     LANGCHAIN_TRACING_V2 = os.getenv("LANGCHAIN_TRACING_V2", "false").lower() == "true"
     LANGCHAIN_PROJECT = os.getenv("LANGCHAIN_PROJECT", "content-marketing-agents")
-    
+
     # Application Settings
     DEBUG = os.getenv("DEBUG", "false").lower() == "true"
     
@@ -36,6 +40,7 @@ class Config:
         
         return True
     
+
     @classmethod
     def to_dict(cls) -> Dict[str, Any]:
         """Convert config to dictionary"""
