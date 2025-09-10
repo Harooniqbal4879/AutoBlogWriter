@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  autoblogwriter:
+    build: .
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    restart: unless-stopped
+    environment:
+      STREAMLIT_SERVER_PORT: 8501
+    command: streamlit run streamlit_app/app.py --server.port 8501
