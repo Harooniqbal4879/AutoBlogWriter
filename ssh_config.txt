@@ -1,0 +1,4 @@
+Host my-aws
+  HostName 52.1.117.92
+  User ubuntu
+  IdentityFile C:\HandsInfotech\###########################AI_Nurse_Staffing\EtherAI\AgenticAI.pem

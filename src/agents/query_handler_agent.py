@@ -74,7 +74,7 @@ class QueryHandlerAgent:
                     if 'blog' in value.lower():
                         agents.append('blog_writer')
                     if 'linkedin' in value.lower():
-                        agents.append('linkedin_writer')
+                        agents.append('LinkedInWriterAgent')
                     if 'strategy' in value.lower():
                         agents.append('content_strategist')
                     if 'image' in value.lower():

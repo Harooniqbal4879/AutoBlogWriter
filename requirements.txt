@@ -41,3 +41,4 @@ black>=23.0.0
 flake8>=6.0.0
 
 # Optional: Database (if you want to store results)
+sqlite3

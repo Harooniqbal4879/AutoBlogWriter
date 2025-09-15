@@ -51,20 +51,42 @@ class LinkedInWriterAgent:
         if cache_key in self._cache:
             return self._cache[cache_key]
         try:
-            prompt = f"""
-            You are a professional LinkedIn content creator. Write an engaging LinkedIn post about \"{context.get('topic', '')}\" for the following audience:
-            Research Summary: {context.get('research_summary', '')}
-            Key Insights: {', '.join(context.get('key_insights', []))}
-            Target Audience: {context.get('target_audience', '')}
-            Brand Voice: {context.get('brand_voice', '')}
-            The post should be concise, actionable, and encourage engagement (comments, shares, likes). Add relevant hashtags and a call to action.
-            """
+            # Fallback logic: use blog content if topic/research/insights are missing
+            blog_content = context.get('blog_content', '')
+            topic = context.get('topic', '')
+            research_summary = context.get('research_summary', '')
+            key_insights = ', '.join(context.get('key_insights', [])) if context.get('key_insights') else ''
+            target_audience = context.get('target_audience', '')
+            brand_voice = context.get('brand_voice', '')
+
+            # Build a robust prompt
+            prompt = """
+You are a professional LinkedIn content creator. Your job is to write an engaging LinkedIn post for a professional audience. If a blog post is provided, summarize and adapt it for LinkedIn. If research summary or key insights are available, incorporate them. Always:
+- Make the post concise, actionable, and encourage engagement (comments, shares, likes)
+- Add relevant hashtags and a call to action
+- Use a professional, positive tone
+"""
+            if topic:
+                prompt += f"\nTopic: {topic}"
+            if research_summary:
+                prompt += f"\nResearch Summary: {research_summary}"
+            if key_insights:
+                prompt += f"\nKey Insights: {key_insights}"
+            if target_audience:
+                prompt += f"\nTarget Audience: {target_audience}"
+            if brand_voice:
+                prompt += f"\nBrand Voice: {brand_voice}"
+            if blog_content:
+                prompt += f"\nBlog Content: {blog_content}"
+
+            prompt += "\nIf any fields above are missing, use what is available to create a LinkedIn post relevant to the topic."
+
             messages = [
                 self.SystemMessage(content="You are a professional LinkedIn content creator."),
                 self.HumanMessage(content=prompt)
             ]
             response = self.llm.invoke(messages)
-            content = response.content
+            content = response.content[:2000] if response.content else ""
             quality_score = 88
             result = {
                 "content": content,
